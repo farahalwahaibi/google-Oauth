@@ -31,14 +31,14 @@ module.exports = async (req, res, next) => {
 }
 
 async function exchangeCodeForToken(code) {
-    const tokenResponse = await superagent.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=`)
+    const tokenResponse = await superagent.post(tokenServerUrl)
         .send({ code: code, client_id: CLIENT_ID, client_secret: CLIENT_SECRET, redirect_uri: REDIRECT_URI, grant_type: 'authorization_code', });
 
     const accessToken = tokenResponse.body.access_token;
     return accessToken;
 }
 
-async function getRemoteUserInfo(remoteToken) {
+async function getRemoteUserInfo(token) {
     const userResponse = await superagent.get(remoteAPI)
         .set('Authorization', `token ${token}`).set('user-agent', 'express-app');
 
@@ -55,14 +55,14 @@ async function getUser(remoteUser) {
     return [user, token];
 }
 
-async function getAccessToken(data) {
-    const { code, client_id, client_secret, redirect_uri } =
-        [data.code, data.client_id, data.client_secret, data.redirect_uri]
+// async function getAccessToken(data) {
+//     const { code, client_id, client_secret, redirect_uri } =
+//         [data.code, data.client_id, data.client_secret, data.redirect_uri]
 
-    try {
-        const token = await superagent.post(tokenServerUrl)
-        .send(queryString)
-    } catch (error) {
+//     try {
+//         const token = await superagent.post(tokenServerUrl)
+//         .send(queryString)
+//     } catch (error) {
         
-    }
-}
+//     }
+// }

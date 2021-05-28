@@ -36,10 +36,10 @@
 ***
 
 ## **Running the App**
-* npm start OR nodemon
+* npm start || nodemon
 
 ***
 
 ## **UML Diagram**
 
-
+![UML-DIAGRAM](1.JPG)

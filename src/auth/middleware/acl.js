@@ -1,20 +1,20 @@
 'use strict';
 
-module.exports = (capability) => {
+module.exports = ( capability ) => {
 
-  return (req, res, next) => {
+  return ( req, res, next ) => {
 
     try {
-      if (req.user.capabilities.includes(capability)) {
+      if ( req.user.capabilities.includes( capability ) ) {
         next();
       }
       else {
-        next('Access Denied');
+        next( 'Access Denied' );
       }
-    } catch (e) {
-      next('Invalid Login');
+    } catch ( e ) {
+      next( 'Invalid Login' );
     }
 
-  }
+  };
 
-}
+};

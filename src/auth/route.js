@@ -7,6 +7,7 @@ const User = require('../models/users.js');
 const basicAuth = require('./middleware/basic.js');
 const bearerAuth = require('./middleware/bearer.js');
 const permissions = require('./middleware/acl.js');
+const oauth = require('../oauth.js')
 
 authRouter.post('/signup', async (req, res, next) => {
   try {
@@ -28,6 +29,10 @@ authRouter.post('/signin', basicAuth, (req, res, next) => {
     token: req.user.token
   };
   res.status(200).json(user);
+});
+
+authRouter.get('/oauth', oauth, (req, res) => {
+  res.json({ token: req.token, user: req.user })
 });
 
 authRouter.get('/users', bearerAuth, permissions('delete'), async (req, res, next) => {

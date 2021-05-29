@@ -2,11 +2,10 @@
 
 require('dotenv').config();
 
-const { query } = require('express');
 const superagent = require('superagent');
 const User = require('./models/users.js');
-const tokenServerUrl = 'https://accounts.google.com/o/oauth2/token';
 
+const tokenServerUrl = 'https://accounts.google.com/o/oauth2/token';
 const remoteAPI = 'https:­//a­cco­unt­s.g­oog­le.c­om­/o/­oau­th2­/auth';
 
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -28,7 +27,7 @@ module.exports = async (req, res, next) => {
     } catch (error) {
         next(error.message);
     }
-}
+};
 
 async function exchangeCodeForToken(code) {
     const tokenResponse = await superagent.post(tokenServerUrl)
@@ -50,7 +49,7 @@ async function getUser(remoteUser) {
     const user = { username: remoteUser.login, password: 'this_should_be_empty' };
     const userObj = new User(user);
     const userDoc = userObj.save();
-    const token = userDoc.token();
+    const token = userDoc.token;
 
     return [user, token];
 }

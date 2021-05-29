@@ -1,11 +1,13 @@
 'use strict';
 
-const authorizeUrl = 'https:­//a­cco­unt­s.g­oog­le.c­om­/o/­oau­th2­/auth';
-
+const authorizeUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
+// const queryString = require ('querystring');
 const options = {
-  client_id: '190084133353-8h1knp422g6tt64kvd3gm2qbdo8b6r3c.apps.googleusercontent.com',
-  scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email'].join( ' ' ), 
-  state: 'some_random_string'
+  client_id: '288561657232-kfgo2ht10mg6gftdln074en89ntq56he.apps.googleusercontent.com',
+  scope: 'https://www.googleapis.com/auth/userinfo.profile',
+  state: 'some_random_string',
+  redirect_uri : 'http://localhost:4000/oauth/google',
+  response_type: 'code'
 };
 
 const queryString = Object.keys( options )

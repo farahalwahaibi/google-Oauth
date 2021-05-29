@@ -17,6 +17,7 @@ authRouter.post('/signup', async (req, res, next) => {
       user: userRecord,
       token: userRecord.token
     };
+    console.log(output);
     res.status(201).json(output);
   } catch (e) {
     next(e.message)
@@ -28,16 +29,20 @@ authRouter.post('/signin', basicAuth, (req, res, next) => {
     user: req.user,
     token: req.user.token
   };
+  console.log(user);
   res.status(200).json(user);
 });
 
-authRouter.get('/oauth', oauth, (req, res) => {
+authRouter.get('/oauth/google', oauth, (req, res) => {
+  console.log({ token: req.token, user: req.user });
   res.json({ token: req.token, user: req.user })
 });
 
 authRouter.get('/users', bearerAuth, permissions('delete'), async (req, res, next) => {
+  console.log('farah');
   const users = await User.find({});
   const list = users.map(user => user.username);
+  console.log(list);
   res.status(200).json(list);
 });
 

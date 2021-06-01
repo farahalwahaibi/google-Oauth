@@ -8,7 +8,7 @@ const User = require('./models/users.js');
 const queryString = require('querystring');
 const { response } = require('express');
 
-const remoteAPI = 'https://accounts.google.com/o/oauth2/token';
+const remoteAPI = 'https://oauth2.googleapis.com/tokeninfo?access_token=';
 const tokenServerUrl = 'https://accounts.google.com/o/oauth2/token';
 
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -21,7 +21,7 @@ module.exports = async (req, res, next) => {
         const code = req.query.code;
         console.log(code,'code');
         const remoteToken = await exchangeCodeForToken(code);
-        console.log(remoteToken,'remotE');
+        console.log(remoteToken,'remoteToken');
         const remoteUser = await getRemoteUserInfo(remoteToken);
         console.log(remoteUser,'USER');
         const [user, token] = await getUser(remoteUser);
@@ -52,9 +52,11 @@ async function exchangeCodeForToken(code) {
 
 async function getRemoteUserInfo(token) {
     const userResponse = await superagent.get(remoteAPI)
-        .set('Authorization', `Bearer ${token}`).set('user-agent', 'express-app');
+        .set('Authorization', `Bearer ${token}`)
+        .set('user-agent', 'express-app');
 
     const user = userResponse.body;
+    console.log(user, 'USER');
     return user;
 }
 
@@ -63,7 +65,8 @@ async function getUser(remoteUser) {
     const userObj = new User(user);
     const userDoc = userObj.save();
     const token = userDoc.token;
-
+    console.log (user, 'userrr')
+    console.log(token,'TOKEN');
     return [user, token];
 }
 
